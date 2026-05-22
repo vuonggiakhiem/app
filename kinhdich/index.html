@@ -1,321 +1,230 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ứng dụng Kinh Dịch</title>
-    
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ffffff">
-    <link rel="apple-touch-icon" href="icon.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Kinh Dịch">
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
-    <style>
-        /* [Dán toàn bộ CSS của bạn vào đây] */
-        .kd-wrap {
-  padding: 1rem;
-  color: var(--color-text-primary);
-  max-width: 380px;
-}
+  <title>Ứng dụng Kinh Dịch</title>
 
-.kd-header {
-  text-align: center;
-  margin-bottom: 1.2rem;
-  padding-bottom: 1rem;
-  border-bottom: 0.5px solid var(--color-border-tertiary);
-}
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#ffffff" />
 
-.kd-header h1 {
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: 0.15em;
-  margin-bottom: 2px;
-}
+  <link rel="apple-touch-icon" href="./icon.png" />
 
-.kd-header p {
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  letter-spacing: 0.08em;
-}
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Kinh Dịch" />
 
-.method-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 1rem;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.method-btn {
-  padding: 10px 8px;
-  border: 0.5px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-md);
-  background: var(--color-background-primary);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  font-size: 12px;
-  font-family: var(--font-sans);
-  text-align: center;
-  transition: all 0.15s;
-}
+    body {
+      font-family: sans-serif;
+      background: #fff;
+      color: #333;
 
-.method-btn.active {
-  border-color: #854F0B;
-  background: #FAEEDA;
-  color: #633806;
-}
+      --color-text-primary: #333;
+      --color-text-secondary: #666;
+      --color-text-tertiary: #999;
 
-.question-area {
-  margin-bottom: 1rem;
-}
+      --color-border-secondary: #ccc;
+      --color-border-tertiary: #eee;
 
-.question-area label {
-  display: block;
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  margin-bottom: 6px;
-}
+      --color-background-primary: #fff;
+      --color-background-secondary: #f9f9f9;
 
-.question-area textarea {
-  width: 100%;
-  border: 0.5px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-md);
-  padding: 10px 12px;
-  font-size: 13px;
-  font-family: var(--font-sans);
-  color: var(--color-text-primary);
-  background: var(--color-background-primary);
-  resize: none;
-  height: 64px;
-  line-height: 1.5;
-}
+      --border-radius-md: 8px;
+      --border-radius-lg: 12px;
+    }
 
-.coin-section {
-  text-align: center;
-  margin-bottom: 1rem;
-}
+    .kd-wrap {
+      padding: 1rem;
+      max-width: 380px;
+      margin: auto;
+    }
 
-.coins-row {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin: 10px 0;
-}
+    .kd-header {
+      text-align: center;
+      margin-bottom: 1.2rem;
+      padding-bottom: 1rem;
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+    }
 
-.coin {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1.5px solid var(--color-border-secondary);
-  background: var(--color-background-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  transition: all 0.3s;
-  cursor: default;
-}
+    .kd-header h1 {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      margin-bottom: 2px;
+    }
 
-.coin.heads { background: #FAEEDA; border-color: #EF9F27; }
-.coin.tails { background: #E6F1FB; border-color: #85B7EB; }
-.coin.spinning { animation: spin 0.4s linear; }
+    .kd-header p {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
 
-@keyframes spin {
-  0% { transform: rotateY(0deg) scale(1); }
-  50% { transform: rotateY(90deg) scale(0.8); }
-  100% { transform: rotateY(0deg) scale(1); }
-}
+    .method-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
 
-.yao-progress {
-  margin-bottom: 1rem;
-}
+    .method-btn {
+      padding: 10px 8px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: white;
+      cursor: pointer;
+      text-align: center;
+      transition: 0.2s;
+      font-size: 13px;
+    }
 
-.yao-progress label {
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  display: block;
-  margin-bottom: 6px;
-}
+    .method-btn.active {
+      background: #FAEEDA;
+      border-color: #854F0B;
+      color: #633806;
+    }
 
-.yao-row {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 5px;
-  align-items: center;
-}
+    .question-area {
+      margin-bottom: 1rem;
+    }
 
-.yao-line {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  height: 14px;
-}
+    .question-area label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: #666;
+    }
 
-.yao-seg {
-  height: 6px;
-  border-radius: 3px;
-  background: var(--color-border-secondary);
-  transition: background 0.3s;
-}
+    .question-area textarea {
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      resize: none;
+      height: 70px;
+      font-size: 13px;
+    }
 
-.yao-seg.yang { background: #BA7517; width: 60px; }
-.yao-seg.yin-l { background: #378ADD; width: 26px; }
-.yao-seg.yin-r { background: #378ADD; width: 26px; }
-.yao-seg.bian-yang { background: #BA7517; width: 60px; outline: 2px solid #E24B4A; outline-offset: 1px; }
-.yao-seg.bian-yin-l { background: #378ADD; width: 26px; outline: 2px solid #E24B4A; outline-offset: 1px; }
-.yao-seg.bian-yin-r { background: #378ADD; width: 26px; outline: 2px solid #E24B4A; outline-offset: 1px; }
+    .coin-section {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
 
-.yao-num {
-  font-size: 11px;
-  color: var(--color-text-tertiary);
-  width: 16px;
-  text-align: right;
-}
+    .coins-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
 
-.yao-tag {
-  font-size: 11px;
-  color: var(--color-text-tertiary);
-  width: 40px;
-}
+    .coin {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      background: #f9f9f9;
+    }
 
-.cast-btn {
-  width: 100%;
-  padding: 12px;
-  border: 0.5px solid #854F0B;
-  border-radius: var(--border-radius-md);
-  background: #FAEEDA;
-  color: #633806;
-  font-size: 14px;
-  font-family: var(--font-sans);
-  font-weight: 500;
-  cursor: pointer;
-  letter-spacing: 0.08em;
-  transition: all 0.15s;
-  margin-bottom: 1rem;
-}
+    .coin.heads {
+      background: #FAEEDA;
+      border-color: #EF9F27;
+    }
 
-.cast-btn:hover { background: #FAC775; }
-.cast-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .coin.tails {
+      background: #E6F1FB;
+      border-color: #85B7EB;
+    }
 
-.result-card {
-  border: 0.5px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-lg);
-  background: var(--color-background-primary);
-  overflow: hidden;
-  margin-bottom: 1rem;
-}
+    .cast-btn,
+    .ask-btn,
+    .reset-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      border: none;
+      font-size: 14px;
+    }
 
-.result-header {
-  padding: 1rem;
-  border-bottom: 0.5px solid var(--color-border-tertiary);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+    .cast-btn {
+      background: #FAEEDA;
+      border: 1px solid #854F0B;
+      color: #633806;
+    }
 
-.que-symbol {
-  font-size: 36px;
-  line-height: 1;
-  flex-shrink: 0;
-}
+    .ask-btn {
+      background: #f5f5f5;
+    }
 
-.que-info h2 {
-  font-size: 17px;
-  font-weight: 500;
-}
+    .reset-btn {
+      background: transparent;
+      border: 1px solid #ddd;
+    }
 
-.que-info p {
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  margin-top: 2px;
-}
+    .hidden {
+      display: none;
+    }
 
-.que-badge {
-  display: inline-block;
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 20px;
-  margin-top: 4px;
-  background: #FAEEDA;
-  color: #854F0B;
-  border: 0.5px solid #EF9F27;
-}
+    .result-card {
+      margin-top: 1rem;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      overflow: hidden;
+    }
 
-.result-section {
-  padding: 12px 1rem;
-  border-bottom: 0.5px solid var(--color-border-tertiary);
-}
+    .result-header {
+      padding: 1rem;
+      display: flex;
+      gap: 12px;
+      border-bottom: 1px solid #eee;
+    }
 
-.result-section:last-child { border-bottom: none; }
+    .que-symbol {
+      font-size: 36px;
+    }
 
-.section-label {
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  letter-spacing: 0.1em;
-  margin-bottom: 6px;
-  text-transform: uppercase;
-}
+    .result-section {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
 
-.section-text {
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--color-text-primary);
-}
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #777;
+      margin-bottom: 6px;
+    }
 
-.hao-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+    .section-text {
+      font-size: 14px;
+      line-height: 1.7;
+    }
 
-.hao-item {
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-  padding: 4px 0;
-  border-bottom: 0.5px solid var(--color-border-tertiary);
-}
+    .hao-item {
+      padding: 6px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
 
-.hao-item:last-child { border-bottom: none; }
+<body>
 
-.hao-item strong { color: var(--color-text-primary); font-weight: 500; }
-
-.ask-btn {
-  width: 100%;
-  padding: 10px;
-  border: 0.5px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-md);
-  background: var(--color-background-secondary);
-  color: var(--color-text-primary);
-  font-size: 13px;
-  font-family: var(--font-sans);
-  cursor: pointer;
-  margin-bottom: 8px;
-}
-
-.reset-btn {
-  width: 100%;
-  padding: 10px;
-  border: 0.5px solid var(--color-border-tertiary);
-  border-radius: var(--border-radius-md);
-  background: transparent;
-  color: var(--color-text-secondary);
-  font-size: 12px;
-  font-family: var(--font-sans);
-  cursor: pointer;
-}
-
-.hidden { display: none; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: sans-serif; --color-text-primary: #333; --color-text-secondary: #666; --color-border-secondary: #ccc; --color-border-tertiary: #eee; --color-background-primary: #fff; --color-background-secondary: #f9f9f9; --border-radius-md: 8px; --border-radius-lg: 12px; }
-        .kd-wrap { padding: 1rem; color: var(--color-text-primary); max-width: 380px; margin: auto; }
-        /* ... (Các class khác bạn đã có) ... */
-        
-    </style>
-    <div class="kd-wrap">
-  <h2 class="sr-only">Ứng dụng giải Kinh Dịch — gieo quẻ và luận giải hào từ</h2>
+<div class="kd-wrap">
 
   <div class="kd-header">
     <h1>易 經 · Kinh Dịch</h1>
@@ -323,348 +232,251 @@
   </div>
 
   <div id="input-phase">
+
     <div class="method-row">
-      <div class="method-btn active" id="m-coin" onclick="setMethod('coin')">
-        <div style="font-size:18px;margin-bottom:3px">☯</div>
-        <div>Gieo đồng tiền</div>
+      <div class="method-btn active"
+           id="m-coin"
+           onclick="setMethod('coin')">
+        ☯<br>
+        Gieo đồng tiền
       </div>
-      <div class="method-btn" id="m-random" onclick="setMethod('random')">
-        <div style="font-size:18px;margin-bottom:3px">✦</div>
-        <div>Ngẫu nhiên</div>
+
+      <div class="method-btn"
+           id="m-random"
+           onclick="setMethod('random')">
+        ✦<br>
+        Ngẫu nhiên
       </div>
     </div>
 
     <div class="question-area">
-      <label>Câu hỏi của bạn (tuỳ chọn)</label>
-      <textarea id="question" placeholder="Ví dụ: Công việc sắp tới có thuận lợi không?"></textarea>
+      <label>Câu hỏi của bạn</label>
+
+      <textarea
+        id="question"
+        placeholder="Ví dụ: Công việc sắp tới có thuận lợi không?"
+      ></textarea>
     </div>
 
-    <div id="coin-ui" class="coin-section">
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px">Bấm để gieo 3 đồng xu — làm 6 lần</div>
-      <div class="coins-row" id="coins-row">
+    <div class="coin-section" id="coin-ui">
+
+      <div style="font-size:12px;color:#666">
+        Bấm gieo 3 đồng xu — 6 lần
+      </div>
+
+      <div class="coins-row">
         <div class="coin" id="c0">？</div>
         <div class="coin" id="c1">？</div>
         <div class="coin" id="c2">？</div>
       </div>
     </div>
 
-    <div class="yao-progress" id="yao-prog">
-      <label>Hào đã gieo (<span id="yao-count">0</span>/6)</label>
-      <div class="yao-row" id="yao-row"></div>
-    </div>
-
-    <button class="cast-btn" id="cast-btn" onclick="castYao()">☰  Gieo hào</button>
+    <button class="cast-btn"
+            id="cast-btn"
+            onclick="castYao()">
+      ☰ Gieo hào
+    </button>
   </div>
 
   <div id="result-phase" class="hidden">
+
     <div class="result-card" id="result-card"></div>
-    <button class="ask-btn" onclick="askMore()">Hỏi thêm về quẻ này ↗</button>
-    <button class="reset-btn" onclick="resetAll()">↺ Gieo quẻ mới</button>
+
+    <button class="ask-btn" onclick="askMore()">
+      Hỏi thêm về quẻ này
+    </button>
+
+    <button class="reset-btn" onclick="resetAll()">
+      ↺ Gieo quẻ mới
+    </button>
   </div>
+
 </div>
-</head>
-<body>
 
-    <div class="kd-wrap">
-        <h2 class="sr-only">Ứng dụng giải Kinh Dịch</h2>
-        </div>
+<script>
 
-    <script>
-        // [Dán toàn bộ JavaScript của bạn vào đây]
-        const GUAS = [
-  { num: 1, name: "Kiền", zh: "乾", symbol: "☰", tri: [1,1,1], nature: "Trời, Sáng tạo, Dương cực", judgment: "Kiền: Nguyên Hanh Lợi Trinh. Thuần dương, trời vận hành mạnh mẽ không ngừng. Quẻ đại kiết, vạn sự hanh thông, tự lực cánh sinh thì thành công.", image: "Trời vận hành hùng mạnh — người quân tử không ngừng tự cường, tự tiến bộ.", element: "Kim", direction: "Tây Bắc" },
-  { num: 2, name: "Khôn", zh: "坤", symbol: "☷", tri: [0,0,0], nature: "Đất, Bao dung, Âm cực", judgment: "Khôn: Nguyên Hanh. Lợi Trinh Tẫn Mã. Đất bao dung vạn vật, nhu thuận là đức. Hành sự theo sau người giỏi, bền bỉ tất thành.", image: "Đất dày chở vật — người quân tử dày đức, gánh vác mọi việc.", element: "Thổ", direction: "Tây Nam" },
-  { num: 3, name: "Truân", zh: "屯", symbol: "䷂", tri: [1,0,0], nature: "Khó khăn ban đầu, Nảy mầm", judgment: "Truân: Nguyên Hanh Lợi Trinh. Khó khăn lúc ban đầu như mầm cây xuyên đất. Cần kiên nhẫn, tích lũy lực lượng. Không nên hành động vội, cần có trợ thủ.", image: "Mây trên nước — bắt đầu gian nan, tích lũy chờ thời.", element: "Mộc", direction: "Đông" },
-  { num: 4, name: "Mông", zh: "蒙", symbol: "䷃", tri: [0,0,1], nature: "Mông muội, Học hỏi", judgment: "Mông: Hanh. Cầu học là chính đạo. Lúc còn mông muội cần thầy chỉ dạy. Khiêm tốn học hỏi ắt tiến bộ. Tránh sự bốc đồng thiếu suy nghĩ.", image: "Núi dưới suối — học hành từng bước, trau dồi đức hạnh.", element: "Mộc", direction: "Đông Bắc" },
-  { num: 5, name: "Nhu", zh: "需", symbol: "䷄", tri: [1,1,0], nature: "Chờ đợi, Nuôi dưỡng", judgment: "Nhu: Có thành tín. Hanh. Trinh kiết. Lợi thiệp đại xuyên. Thời cơ chưa đến, chờ đợi là khôn ngoan. Tự củng cố sức mình trong khi chờ đợi.", image: "Mây trên trời — đợi mưa thuận gió hòa, tích lũy ẩm thực.", element: "Thủy", direction: "Bắc" },
-  { num: 6, name: "Tụng", zh: "訟", symbol: "䷅", tri: [0,1,1], nature: "Tranh tụng, Mâu thuẫn", judgment: "Tụng: Hữu phu chất ách. Trung kiết. Chung hung. Tránh tranh chấp nếu có thể. Nếu buộc phải tranh, chỉ nên giải quyết phần lý, không nên đẩy đến cùng.", image: "Trời và nước nghịch chiều — tránh kiện cáo, lấy hòa làm đầu.", element: "Kim/Thủy", direction: "Bắc/Tây" },
-  { num: 7, name: "Sư", zh: "師", symbol: "䷆", tri: [0,0,0], nature: "Quân sự, Tổ chức", judgment: "Sư: Trinh. Trượng nhân kiết, vô cữu. Cần có người lãnh đạo đức độ. Hành động có kỷ luật và mục tiêu rõ ràng. Đoàn kết mới thành công.", image: "Đất trên nước — kỷ luật quân sự, bao dung với dân.", element: "Thổ", direction: "Tây Nam" },
-  { num: 8, name: "Tỷ", zh: "比", symbol: "䷇", tri: [0,1,0], nature: "Liên kết, Đoàn kết", judgment: "Tỷ: Kiết. Nguyên phệ nguyên vĩnh trinh, vô cữu. Liên kết, đoàn kết là cốt lõi. Chọn lãnh đạo đức độ mà theo, hòa hợp với người xung quanh.", image: "Nước trên đất — kết nối, tụ hợp lại với nhau.", element: "Thủy", direction: "Bắc" },
-  { num: 11, name: "Thái", zh: "泰", symbol: "䷊", tri: [0,0,1], nature: "Thịnh vượng, Hanh thông", judgment: "Thái: Tiểu vãng đại lai, kiết hanh. Trời đất giao hòa, vạn vật hanh thông. Thời đại hưng thịnh. Hành động tích cực sẽ đạt kết quả tốt đẹp.", image: "Trời và đất giao hòa — vua an dân, thiên hạ thái bình.", element: "Thổ/Kim", direction: "Đông Bắc" },
-  { num: 12, name: "Bĩ", zh: "否", symbol: "䷋", tri: [1,1,0], nature: "Trì trệ, Bế tắc", judgment: "Bĩ: Phi nhân. Bất lợi quân tử trinh. Đại vãng tiểu lai. Trời đất không giao, vạn sự bế tắc. Ẩn nhẫn chờ thời, đừng hành động liều lĩnh.", image: "Trời đất cách xa — người quân tử kiệm đức, tránh hoạ.", element: "Kim/Thổ", direction: "Tây Bắc" },
-  { num: 13, name: "Đồng Nhân", zh: "同人", symbol: "䷌", tri: [1,1,1], nature: "Đoàn kết, Hoà đồng", judgment: "Đồng Nhân: Vu dã hanh. Lợi thiệp đại xuyên. Lợi quân tử trinh. Hoà đồng với mọi người, hợp tác thành công. Ra ngoài xã hội, mở rộng quan hệ.", image: "Lửa trên trời — soi sáng khắp nơi, đoàn kết muôn người.", element: "Hỏa", direction: "Nam" },
-  { num: 14, name: "Đại Hữu", zh: "大有", symbol: "䷍", tri: [1,0,1], nature: "Giàu có, Sung túc", judgment: "Đại Hữu: Nguyên hanh. Sở hữu lớn lao, thịnh vượng. Nhờ đức độ mà có được. Giữ lòng khiêm tốn, tránh kiêu ngạo khi đang ở đỉnh cao.", image: "Lửa trên trời — phân biệt thiện ác, thuận thiên mà làm.", element: "Hỏa", direction: "Nam" },
-  { num: 15, name: "Khiêm", zh: "謙", symbol: "䷎", tri: [0,0,0], nature: "Khiêm tốn, Nhún nhường", judgment: "Khiêm: Hanh. Quân tử hữu chung. Khiêm tốn là đức hạnh cao quý. Núi giấu mình dưới đất — người tài giỏi nhún nhường, mọi việc hanh thông.", image: "Núi trong đất — người quân tử bớt nhiều bù ít, cân bằng.", element: "Thổ", direction: "Tây Nam" },
-  { num: 16, name: "Dự", zh: "豫", symbol: "䷏", tri: [1,0,0], nature: "Hân hoan, Phấn khởi", judgment: "Dự: Lợi kiến hầu hành sư. Thời điểm vui vẻ, hăng hái. Hành động kịp thời, chủ động. Tạo niềm vui cho mọi người xung quanh.", image: "Sấm ra từ đất — vui vẻ hành động, đoàn kết dân chúng.", element: "Thổ", direction: "Đông Bắc" },
-  { num: 17, name: "Tùy", zh: "隨", symbol: "䷐", tri: [0,1,0], nature: "Thuận theo, Thích nghi", judgment: "Tùy: Nguyên hanh lợi trinh, vô cữu. Thuận theo hoàn cảnh, thích nghi linh hoạt. Không chống lại thời thế. Nhún nhường mà tiến bộ.", image: "Sấm trong đầm — nghỉ ngơi theo mùa, thuận theo lẽ tự nhiên.", element: "Thủy", direction: "Đông" },
-  { num: 18, name: "Cổ", zh: "蠱", symbol: "䷑", tri: [0,0,1], nature: "Chỉnh đốn, Cải tổ", judgment: "Cổ: Nguyên hanh. Lợi thiệp đại xuyên. Tiên giáp tam nhật, hậu giáp tam nhật. Tình trạng hủ bại cần cải tổ. Dũng cảm đổi mới, kiên nhẫn khắc phục.", image: "Gió dưới núi — người quân tử cổ vũ dân chúng, tu đức.", element: "Mộc", direction: "Tây Bắc" },
-  { num: 63, name: "Ký Tế", zh: "既濟", symbol: "䷾", tri: [0,1,0], nature: "Hoàn thành, Viên mãn", judgment: "Ký Tế: Hanh tiểu. Lợi trinh. Sơ kiết chung loạn. Mọi việc đã hoàn thành tốt đẹp. Nhưng đừng buông lơi, cần cảnh giác để giữ vững thành quả.", image: "Nước trên lửa — chỉnh đốn, cảnh giác không để chệch đường.", element: "Thủy", direction: "Bắc" },
-  { num: 64, name: "Vị Tế", zh: "未濟", symbol: "䷿", tri: [1,0,1], nature: "Chưa hoàn thành, Chuẩn bị", judgment: "Vị Tế: Hanh. Tiểu hồ uế tế. Xử hung. Chưa đến hồi kết, nhiều việc còn dang dở. Cần thận trọng, chắc chắn từng bước. Cơ hội vẫn còn.", image: "Lửa trên nước — phân biệt thứ, ở đúng vị trí của mình.", element: "Hỏa", direction: "Nam" },
+const GUAS = [
+  {
+    name: "Kiền",
+    zh: "乾",
+    symbol: "☰",
+    nature: "Trời · Dương cực",
+    judgment: "Kiền: Đại cát. Tự cường không ngừng.",
+    image: "Trời vận hành mạnh mẽ.",
+    element: "Kim",
+    direction: "Tây Bắc"
+  },
+
+  {
+    name: "Khôn",
+    zh: "坤",
+    symbol: "☷",
+    nature: "Đất · Âm cực",
+    judgment: "Khôn: Thuận theo, bao dung.",
+    image: "Đất dày chở vật.",
+    element: "Thổ",
+    direction: "Tây Nam"
+  }
 ];
 
-const HAO_TEXTS = {
-  "Kiền": ["Tiềm long vật dụng — Rồng ẩn, chưa phải lúc hành động.", "Hiện long tại điền — Rồng hiện, lợi khi gặp bậc thầy.", "Quân tử chung nhật kiền kiền — Siêng năng cẩn thận, không sai lầm.", "Hoặc dược tại uyên — Có thể nhảy vọt hoặc ẩn mình, không lỗi.", "Phi long tại thiên — Rồng bay trên trời, lợi khi gặp người giỏi.", "Kháng long hữu hối — Rồng quá cao ắt hối hận."],
-  "Khôn": ["Lý sương kiên băng chí — Sương xuống, băng đến — biết trước điềm báo.", "Trực phương đại — Ngay thẳng, vuông vắn, vĩ đại, không cần tập.", "Hàm chương khả trinh — Ẩn tài mà chính đính.", "Quát nang vô cữu — Buộc túi lại, không khen không chê.", "Hoàng thường nguyên kiết — Váy vàng, đại kiết.", "Long chiến vu dã — Rồng chiến ngoài đồng, máu xanh máu vàng."],
-  "default": ["Hào Sơ — Mới bắt đầu, thận trọng đặt nền móng.", "Hào Nhị — Vị trí trung, nên giữ trung dung.", "Hào Tam — Vị trí hiểm, cẩn thận tránh sai lầm.", "Hào Tứ — Gần người trên, cẩn trọng lời nói.", "Hào Ngũ — Vị trí tôn quý, lãnh đạo đức độ.", "Hào Thượng — Ở cực điểm, biết lui về đúng lúc."]
-};
-
-let method = 'coin';
+let method = "coin";
 let yaos = [];
-let currentCoins = [];
-let spinning = false;
 
 function setMethod(m) {
-  method = m;
-  document.getElementById('m-coin').classList.toggle('active', m === 'coin');
-  document.getElementById('m-random').classList.toggle('active', m === 'random');
-  document.getElementById('coin-ui').classList.toggle('hidden', m !== 'coin');
-  if (m === 'random') {
-    document.getElementById('cast-btn').textContent = '☰  Gieo ngẫu nhiên 6 hào';
-  } else {
-    document.getElementById('cast-btn').textContent = '☰  Gieo hào';
-  }
-  yaos = [];
-  updateYaoDisplay();
-}
 
-function coinFace(val) { return val === 1 ? '陽' : '陰'; }
+  method = m;
+
+  document
+    .getElementById("m-coin")
+    .classList.toggle("active", m === "coin");
+
+  document
+    .getElementById("m-random")
+    .classList.toggle("active", m === "random");
+}
 
 function castYao() {
-  if (method === 'random') {
-    castAllRandom();
-    return;
-  }
-  if (spinning || yaos.length >= 6) return;
-  spinning = true;
 
-  const coins = [Math.random() < 0.5 ? 1 : 0, Math.random() < 0.5 ? 1 : 0, Math.random() < 0.5 ? 1 : 0];
-  currentCoins = coins;
+  if (method === "random") {
 
-  ['c0','c1','c2'].forEach((id, i) => {
-    const el = document.getElementById(id);
-    el.classList.add('spinning');
-    el.classList.remove('heads','tails');
-  });
+    yaos = [];
 
-  setTimeout(() => {
-    ['c0','c1','c2'].forEach((id, i) => {
+    for (let i = 0; i < 6; i++) {
+      yaos.push(Math.random() > 0.5 ? 1 : 0);
+    }
+
+  } else {
+
+    if (yaos.length >= 6) return;
+
+    const coins = [
+      Math.random() > 0.5 ? 1 : 0,
+      Math.random() > 0.5 ? 1 : 0,
+      Math.random() > 0.5 ? 1 : 0
+    ];
+
+    ["c0", "c1", "c2"].forEach((id, i) => {
+
       const el = document.getElementById(id);
-      el.classList.remove('spinning');
-      el.textContent = coins[i] === 1 ? '陽' : '陰';
-      el.classList.add(coins[i] === 1 ? 'heads' : 'tails');
+
+      el.textContent = coins[i] ? "陽" : "陰";
+
+      el.className =
+        "coin " + (coins[i] ? "heads" : "tails");
     });
 
-    const sum = coins.reduce((a,b) => a+b, 0);
-    let yaoType;
-    if (sum === 3) yaoType = 'laoyang';
-    else if (sum === 0) yaoType = 'laoyin';
-    else if (sum === 2) yaoType = 'yang';
-    else yaoType = 'yin';
+    const sum = coins.reduce((a,b)=>a+b,0);
 
-    yaos.push(yaoType);
-    updateYaoDisplay();
-    spinning = false;
-
-    if (yaos.length >= 6) {
-      document.getElementById('cast-btn').textContent = '☯  Xem quẻ';
-      document.getElementById('cast-btn').onclick = showResult;
-    }
-  }, 420);
-}
-
-function castAllRandom() {
-  const types = ['yang','yin','laoyang','laoyin'];
-  const weights = [0.37, 0.37, 0.13, 0.13];
-  yaos = [];
-  for (let i = 0; i < 6; i++) {
-    const r = Math.random();
-    let cumul = 0;
-    for (let j = 0; j < types.length; j++) {
-      cumul += weights[j];
-      if (r <= cumul) { yaos.push(types[j]); break; }
-    }
-  }
-  updateYaoDisplay();
-  showResult();
-}
-
-function updateYaoDisplay() {
-  document.getElementById('yao-count').textContent = yaos.length;
-  const row = document.getElementById('yao-row');
-  row.innerHTML = '';
-  for (let i = 5; i >= 0; i--) {
-    const div = document.createElement('div');
-    div.className = 'yao-line';
-    const num = document.createElement('div');
-    num.className = 'yao-num';
-    num.textContent = i + 1;
-    div.appendChild(num);
-
-    if (i < yaos.length) {
-      const t = yaos[i];
-      const isYang = t === 'yang' || t === 'laoyang';
-      const isBian = t === 'laoyang' || t === 'laoyin';
-      if (isYang) {
-        const seg = document.createElement('div');
-        seg.className = 'yao-seg ' + (isBian ? 'bian-yang' : 'yang');
-        div.appendChild(seg);
-      } else {
-        const sl = document.createElement('div');
-        sl.className = 'yao-seg ' + (isBian ? 'bian-yin-l' : 'yin-l');
-        const sr = document.createElement('div');
-        sr.className = 'yao-seg ' + (isBian ? 'bian-yin-r' : 'yin-r');
-        div.appendChild(sl);
-        div.appendChild(sr);
-      }
-      const tag = document.createElement('div');
-      tag.className = 'yao-tag';
-      const labels = {yang:'— (Dương)', yin:'— — (Âm)', laoyang:'⊙ Lão Dương', laoyin:'✕ Lão Âm'};
-      tag.style.fontSize = '10px';
-      tag.style.color = isBian ? '#E24B4A' : 'var(--color-text-tertiary)';
-      tag.textContent = labels[t];
-      div.appendChild(tag);
-    } else {
-      const seg = document.createElement('div');
-      seg.className = 'yao-seg';
-      seg.style.width = '60px';
-      div.appendChild(seg);
-    }
-    row.appendChild(div);
-  }
-}
-
-function yaoToNum(t) {
-  if (t === 'yang' || t === 'laoyang') return 1;
-  return 0;
-}
-
-function getQueIndex(bits) {
-  const lookup = [0,1,0,1,0,1,0,1];
-  return bits[2]*4 + bits[1]*2 + bits[0];
-}
-
-function findGua(yaos6) {
-  const bits = yaos6.map(yaoToNum);
-  const lower = bits.slice(0,3);
-  const upper = bits.slice(3,6);
-  const lowerSum = lower.reduce((a,b)=>a+b,0);
-  const upperSum = upper.reduce((a,b)=>a+b,0);
-  const totalYang = bits.filter(b=>b===1).length;
-
-  const candidates = GUAS.filter(g => {
-    const t = g.tri;
-    return t[0] === bits[0] && t[1] === bits[1] && t[2] === bits[2];
-  });
-
-  if (candidates.length > 0) {
-    return candidates[Math.floor(Math.random() * candidates.length)];
+    yaos.push(sum >= 2 ? 1 : 0);
   }
 
-  const idx = Math.floor((lowerSum * 3 + upperSum) % GUAS.length);
-  return GUAS[idx];
+  if (yaos.length >= 6) {
+    showResult();
+  }
 }
 
 function showResult() {
-  if (yaos.length < 6) return;
 
-  const gua = findGua(yaos);
-  const bianYaos = yaos.map((t,i) => ({idx: i, type: t, bian: t === 'laoyang' || t === 'laoyin'})).filter(y => y.bian);
-  const question = document.getElementById('question').value.trim();
+  const gua =
+    yaos.filter(v=>v===1).length >= 3
+      ? GUAS[0]
+      : GUAS[1];
 
-  const haoTexts = HAO_TEXTS[gua.name] || HAO_TEXTS['default'];
-
-  let html = `
+  document.getElementById("result-card").innerHTML = `
     <div class="result-header">
       <div class="que-symbol">${gua.symbol}</div>
-      <div class="que-info">
+
+      <div>
         <h2>Quẻ ${gua.name} ${gua.zh}</h2>
-        <p>${gua.nature}</p>
-        <span class="que-badge">${gua.element} · ${gua.direction}</span>
-      </div>
-    </div>
-  `;
 
-  if (question) {
-    html += `
-      <div class="result-section">
-        <div class="section-label">Câu hỏi</div>
-        <div class="section-text">${question}</div>
-      </div>
-    `;
-  }
-
-  html += `
-    <div class="result-section">
-      <div class="section-label">Quẻ từ</div>
-      <div class="section-text">${gua.judgment}</div>
-    </div>
-    <div class="result-section">
-      <div class="section-label">Đại tượng</div>
-      <div class="section-text">${gua.image}</div>
-    </div>
-  `;
-
-  if (bianYaos.length > 0) {
-    html += `<div class="result-section"><div class="section-label">Hào động (biến hào)</div><div class="hao-grid">`;
-    bianYaos.forEach(y => {
-      const ordinals = ['Sơ', 'Nhị', 'Tam', 'Tứ', 'Ngũ', 'Thượng'];
-      const polarity = y.type === 'laoyang' ? 'Lão Dương → biến Âm' : 'Lão Âm → biến Dương';
-      html += `<div class="hao-item"><strong>Hào ${ordinals[y.idx]} (${polarity}):</strong> ${haoTexts[y.idx]}</div>`;
-    });
-    html += `</div></div>`;
-  } else {
-    html += `
-      <div class="result-section">
-        <div class="section-label">Hào từ</div>
-        <div class="hao-grid">
-          ${haoTexts.map((t,i) => {
-            const ord = ['Sơ','Nhị','Tam','Tứ','Ngũ','Thượng'][i];
-            return `<div class="hao-item"><strong>Hào ${ord}:</strong> ${t}</div>`;
-          }).join('')}
+        <div style="font-size:12px;color:#666;margin-top:4px">
+          ${gua.nature}
         </div>
       </div>
-    `;
-  }
+    </div>
 
-  html += `</div>`;
+    <div class="result-section">
+      <div class="section-label">Quẻ từ</div>
 
-  document.getElementById('result-card').innerHTML = html;
-  document.getElementById('input-phase').classList.add('hidden');
-  document.getElementById('result-phase').classList.remove('hidden');
+      <div class="section-text">
+        ${gua.judgment}
+      </div>
+    </div>
+
+    <div class="result-section">
+      <div class="section-label">Đại tượng</div>
+
+      <div class="section-text">
+        ${gua.image}
+      </div>
+    </div>
+  `;
+
+  document
+    .getElementById("input-phase")
+    .classList.add("hidden");
+
+  document
+    .getElementById("result-phase")
+    .classList.remove("hidden");
 
   window._currentGua = gua;
-  window._currentQuestion = question;
-  window._currentBian = bianYaos;
 }
 
 function askMore() {
+
   const g = window._currentGua;
-  const q = window._currentQuestion;
+
   if (!g) return;
-  let prompt = `Tôi vừa gieo được quẻ ${g.name} (${g.zh} ${g.symbol}) trong Kinh Dịch.`;
-  if (q) prompt += ` Câu hỏi của tôi là: "${q}".`;
-  if (window._currentBian && window._currentBian.length > 0) {
-    const ordinals = ['Sơ','Nhị','Tam','Tứ','Ngũ','Thượng'];
-    prompt += ` Có hào động tại: ${window._currentBian.map(y => 'hào ' + ordinals[y.idx]).join(', ')}.`;
-  }
-  prompt += ' Hãy giải thích chi tiết ý nghĩa quẻ này và lời khuyên cho tôi.';
-  sendPrompt(prompt);
+
+  const text =
+    `Quẻ ${g.name} (${g.zh}):\n\n` +
+    `${g.judgment}\n\n` +
+    `${g.image}`;
+
+  alert(text);
 }
 
 function resetAll() {
+
   yaos = [];
-  document.getElementById('question').value = '';
-  ['c0','c1','c2'].forEach(id => {
+
+  document
+    .getElementById("question")
+    .value = "";
+
+  ["c0","c1","c2"].forEach(id => {
+
     const el = document.getElementById(id);
-    el.textContent = '？';
-    el.className = 'coin';
+
+    el.textContent = "？";
+
+    el.className = "coin";
   });
-  document.getElementById('cast-btn').textContent = '☰  Gieo hào';
-  document.getElementById('cast-btn').onclick = castYao;
-  updateYaoDisplay();
-  document.getElementById('input-phase').classList.remove('hidden');
-  document.getElementById('result-phase').classList.add('hidden');
+
+  document
+    .getElementById("input-phase")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("result-phase")
+    .classList.add("hidden");
 }
 
-updateYaoDisplay();
-        // PWA: Đăng ký Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('SW registered'))
-                    .catch(err => console.log('SW failed', err));
-            });
-        }
-    </script>
+/* PWA */
+
+if ("serviceWorker" in navigator) {
+
+  window.addEventListener("load", () => {
+
+    navigator.serviceWorker
+      .register("./sw.js")
+      .then(() => console.log("SW registered"))
+      .catch(err => console.log(err));
+  });
+}
+
+</script>
+
 </body>
 </html>
